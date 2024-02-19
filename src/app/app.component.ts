@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +11,14 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'testing-angular17-ssr';
+  private readonly http = inject(HttpClient);
+
+  //server side rendering
+  links$ = this.http.get<any>("https://bsite.net/metalflap/link");
+  guias$ = this.http.get<any>("https://bsite.net/metalflap/gj_juegos");
+
+  //client side rendering
+  getData() {
+    this.links$ = this.http.get<any>("https://bsite.net/metalflap/link");
+  }
 }
